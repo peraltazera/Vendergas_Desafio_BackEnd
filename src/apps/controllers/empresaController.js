@@ -73,7 +73,7 @@ class EmpresaController {
         }
     }
 
-    async findByUser(req, res){
+    async findByUsuario(req, res){
         try {
             const { id } = req.params;
             const empresas = await EmpresaModel.find({ usuario: id });
@@ -87,7 +87,6 @@ class EmpresaController {
             return res.status(404).json({message: error});
         }
     }
-
 
     async update(req, res){
         try {

@@ -7,6 +7,6 @@ router.get('/', EmpresaController.findAll);
 router.get('/:id', EmpresaController.findById);
 router.put('/:id', EmpresaController.update);
 router.delete('/:id', EmpresaController.delete);
-router.get('/usuario/:id', EmpresaController.findByUser);
+router.get('/usuario/:id', EmpresaController.findByUsuario);
 
 module.exports = router;
