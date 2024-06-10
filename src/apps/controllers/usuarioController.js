@@ -10,25 +10,24 @@ const UsuarioShema = Joi.object({
 
 class UsuarioController {
     async create(req, res){
-        const { error, value } = UsuarioShema.validate(req.body);
-
-        if (error) {
-            return res.status(400).json({ message: error.details[0].message });
-        }
-
-        const emailExistente = await UsuarioModel.findOne({ email: value.email });
-
-        if (emailExistente) {
-            return res.status(400).json({ message: 'Email já existe' });
-        }
-
-        const nomeExistente = await UsuarioModel.findOne({ nome: value.nome });
-
-        if (nomeExistente) {
-            return res.status(400).json({ message: 'Nome já existe' });
-        }
-
         try {
+            const { error, value } = UsuarioShema.validate(req.body);
+
+            if (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
+    
+            const emailExistente = await UsuarioModel.findOne({ email: value.email });
+    
+            if (emailExistente) {
+                return res.status(400).json({ message: 'Email já existe' });
+            }
+    
+            const nomeExistente = await UsuarioModel.findOne({ nome: value.nome });
+    
+            if (nomeExistente) {
+                return res.status(400).json({ message: 'Nome já existe' });
+            }
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(value.senha, salt);
             value.senha = hashedPassword;
