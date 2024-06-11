@@ -18,22 +18,22 @@ class ClienteController {
                 return res.status(400).json({ message: error.details[0].message });
             }
 
-            const emailExistente = await ClienteModel.findOne({ email: value.email });
+            const empresa = await EmpresaModel.findById(req.body.empresa);
+
+            if (!empresa) {
+                return res.status(404).json({ message: 'Empresa não encontrada' });
+            }
+
+            const emailExistente = await ClienteModel.findOne({ email: value.email, empresa: value.empresa });
     
             if (emailExistente) {
                 return res.status(400).json({ message: 'Email já existe' });
             }
     
-            const telefoneExistente = await ClienteModel.findOne({ telefone: value.telefone });
+            const telefoneExistente = await ClienteModel.findOne({ telefone: value.telefone, empresa: value.empresa });
     
             if (telefoneExistente) {
                 return res.status(400).json({ message: 'Telefone já existe' });
-            }
-    
-            const empresa = await EmpresaModel.findById(req.body.empresa);
-
-            if (!empresa) {
-                return res.status(404).json({ message: 'Empresa não encontrada' });
             }
 
             const cliente = await ClienteModel.create(req.body);
@@ -88,10 +88,16 @@ class ClienteController {
 
             const { error, value } = ClienteShema.validate(req.body);
 
+            const empresa = await EmpresaModel.findById(req.body.empresa);
+
+            if (!empresa) {
+                return res.status(404).json({ message: 'Empresa não encontrada' });
+            }
+
             const cliente = await ClienteModel.findById(id);
 
             if(value.email != cliente.email){
-                const emailExistente = await ClienteModel.findOne({ email: value.email });
+                const emailExistente = await ClienteModel.findOne({ email: value.email, empresa: value.empresa });
 
                 if (emailExistente) {
                     return res.status(400).json({ message: 'Email já existe' });
@@ -99,7 +105,7 @@ class ClienteController {
             }
 
             if(value.telefone != cliente.telefone){
-                const telefoneExistente = await ClienteModel.findOne({ telefone: value.telefone });
+                const telefoneExistente = await ClienteModel.findOne({ telefone: value.telefone, empresa: value.empresa });
 
                 if (telefoneExistente) {
                     return res.status(400).json({ message: 'Telefone já existe' });

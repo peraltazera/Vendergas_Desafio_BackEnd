@@ -18,6 +18,12 @@ class EmpresaController {
                 return res.status(400).json({ message: error.details[0].message });
             }
 
+            const usuario = await UsuarioModel.findById(req.body.usuario);
+
+            if (!usuario) {
+                return res.status(404).json({ message: 'Usuario não encontrada' });
+            }
+
             const nomeFantasiaExistente = await EmpresaModel.findOne({ nomeFantasia: value.nomeFantasia });
 
             if (nomeFantasiaExistente) {
@@ -34,12 +40,6 @@ class EmpresaController {
 
             if (cnpjExistente) {
                 return res.status(400).json({ message: 'CNPJ já existe' });
-            }
-
-            const usuario = await UsuarioModel.findById(req.body.usuario);
-
-            if (!usuario) {
-                return res.status(404).json({ message: 'Usuario não encontrada' });
             }
 
             const empresa = await EmpresaModel.create(req.body);
