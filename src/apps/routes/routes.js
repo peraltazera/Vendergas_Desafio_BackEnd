@@ -4,6 +4,7 @@ const empresaRoutes = require('./empresaRoutes');
 const clienteRoutes = require('./clienteRoutes');
 const produtoRoutes = require('./produtoRoutes');
 const pedidoRoutes = require('./pedidoRoutes');
+const pedidoProdutoRoutes = require('./pedidoProdutoRoutes');
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/empresas', empresaRoutes);
 router.use('/clientes', clienteRoutes);
 router.use('/produtos', produtoRoutes);
 router.use('/pedidos', pedidoRoutes);
+router.use('/pedidos_produtos', pedidoProdutoRoutes);
 
 module.exports = router;
