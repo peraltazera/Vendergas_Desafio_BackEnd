@@ -1,12 +1,18 @@
 const UsuarioModel = require('../models/usuarioModel');
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const UsuarioShema = Joi.object({
     nome: Joi.string().required(),
     email: Joi.string().email().required(),
     senha: Joi.string().min(6).required(),
   });
+
+const LoginShema = Joi.object({
+    email: Joi.string().required(),
+    senha: Joi.string().min(6).required(),
+});
 
 class UsuarioController {
     async create(req, res){
@@ -107,6 +113,40 @@ class UsuarioController {
             }
             
             return res.status(200).json({message: 'Usuario deletado'});
+        } catch (error) {
+            return res.status(404).json({message: error});
+        }
+    }
+
+    async login(req, res){
+        try {
+            const { error, value } = LoginShema.validate(req.body);
+
+            if (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
+
+            const usuario = await UsuarioModel.findOne({email: value.email});
+
+            if(!usuario){
+                return res.status(404).json({message: "Usuario não encontrado"});
+            }
+            
+            const checkPassword = await bcrypt.compare(value.senha, usuario.senha);
+            if(!checkPassword){
+                return res.status(422).json({message: "Credenciais invalidas"});
+            }
+
+            const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
+            const token = jwt.sign(
+                {
+                    id: usuario._id,
+                },
+                PRIVATE_KEY,
+            );
+
+            return res.status(200).json({message: "Autenticação realizada com sucesso", token});
         } catch (error) {
             return res.status(404).json({message: error});
         }
