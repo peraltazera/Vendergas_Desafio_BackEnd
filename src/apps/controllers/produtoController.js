@@ -21,13 +21,13 @@ class ProdutoController {
             const empresa = await EmpresaModel.findById(req.body.empresa);
 
             if (!empresa) {
-                return res.status(404).json({ message: 'Empresa não encontrada' });
+                return res.status(404).json({ message: 'Empresa não encontrada!' });
             }
 
             const nomeExistente = await ProdutoModel.findOne({ nome: value.nome,  empresa: value.empresa});
     
             if (nomeExistente) {
-                return res.status(400).json({ message: 'Nome já existe' });
+                return res.status(400).json({ message: 'Nome já cadastado nessa empresa!' });
             }
 
             const produto = await ProdutoModel.create(req.body);
@@ -52,7 +52,7 @@ class ProdutoController {
             const produto = await ProdutoModel.findById(id);
 
             if(!produto){
-                return res.status(404).json({message: "Pruduto não encontrado"});
+                return res.status(404).json({message: "Pruduto não encontrado!"});
             }
             
             return res.status(200).json(produto);
@@ -67,7 +67,7 @@ class ProdutoController {
             const produtos = await ProdutoModel.find({ empresa: id });
 
             if(!produtos){
-                return res.status(404).json({message: "Produtos não encontrados"});
+                return res.status(404).json({message: "Produtos não encontrados!"});
             }
             
             return res.status(200).json(produtos);
@@ -82,25 +82,19 @@ class ProdutoController {
 
             const { error, value } = ProdutoShema.validate(req.body);
 
-            const empresa = await EmpresaModel.findById(req.body.empresa);
-
-            if (!empresa) {
-                return res.status(404).json({ message: 'Empresa não encontrada' });
-            }
-
             const produto = await ProdutoModel.findById(id);
 
             if(value.nome != produto.nome){
                 const nomeExistente = await ProdutoModel.findOne({ nome: value.nome, empresa: value.empresa });
 
                 if (nomeExistente) {
-                    return res.status(400).json({ message: 'Nome já existe' });
+                    return res.status(400).json({ message: 'Nome já existe!' });
                 }
             }
 
             await ProdutoModel.findByIdAndUpdate(id, req.body);
             
-            return res.status(200).json({message: 'Produto atualizado'});
+            return res.status(200).json({message: 'Produto atualizado!'});
         } catch (error) {
             return res.status(404).json({message: error});
         }
@@ -112,10 +106,10 @@ class ProdutoController {
             const produto = await ProdutoModel.findByIdAndDelete(id);
 
             if(!produto){
-                return res.status(404).json({message: "Pruduto não encontrado"});
+                return res.status(404).json({message: "Pruduto não encontrado!"});
             }
             
-            return res.status(200).json({message: 'Produto deletado'});
+            return res.status(200).json({message: 'Produto deletado!'});
         } catch (error) {
             return res.status(404).json({message: error});
         }

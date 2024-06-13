@@ -22,21 +22,21 @@ class PedidoController {
 
             const empresa = await EmpresaModel.findById(req.body.empresa);
             if (!empresa) {
-                return res.status(404).json({ message: 'Empresa não encontrada' });
+                return res.status(404).json({ message: 'Empresa não encontrada!' });
             }
 
             const cliente = await ClienteModel.findById(req.body.cliente);
             if (!cliente) {
-                return res.status(404).json({ message: 'Cliente não encontrado' });
+                return res.status(404).json({ message: 'Cliente não encontrado!' });
             }
             else if(cliente.empresa != value.empresa) {
-                return res.status(404).json({ message: 'Cliente não encontrado' });
+                return res.status(404).json({ message: 'Cliente não encontrado!' });
             }
 
             const numeroExistente = await PedidoModel.findOne({ numero: value.numero });
     
             if (numeroExistente) {
-                return res.status(400).json({ message: 'Numero do pedido já existe' });
+                return res.status(400).json({ message: 'Numero do pedido já cadastado nessa empresa!' });
             }
 
             const pedido = await PedidoModel.create(req.body);
@@ -61,7 +61,7 @@ class PedidoController {
             const pedido = await PedidoModel.findById(id);
 
             if(!pedido){
-                return res.status(404).json({message: "Pedido não encontrado"});
+                return res.status(404).json({message: "Pedido não encontrado!"});
             }
             
             return res.status(200).json(pedido);
@@ -76,7 +76,7 @@ class PedidoController {
             const pedidos = await PedidoModel.find({ empresa: id });
 
             if(!pedidos){
-                return res.status(404).json({message: "Pedidos não encontrados"});
+                return res.status(404).json({message: "Pedidos não encontrados!"});
             }
             
             return res.status(200).json(pedidos);
@@ -91,7 +91,7 @@ class PedidoController {
 
             const { error, value } = PedidoShema.validate(req.body);
 
-            const empresa = await EmpresaModel.findById(req.body.empresa);
+            /*const empresa = await EmpresaModel.findById(req.body.empresa);
 
             if (!empresa) {
                 return res.status(404).json({ message: 'Empresa não encontrada' });
@@ -103,7 +103,7 @@ class PedidoController {
             }
             else if(cliente.empresa != value.empresa) {
                 return res.status(404).json({ message: 'Cliente não encontrado' });
-            }
+            }*/
 
             const pedido = await PedidoModel.findById(id);
 
@@ -111,13 +111,13 @@ class PedidoController {
                 const numeroExistente = await PedidoModel.findOne({ numero: value.numero, empresa: value.empresa });
 
                 if (numeroExistente) {
-                    return res.status(400).json({ message: 'Numero do pedido já existe' });
+                    return res.status(400).json({ message: 'Numero do pedido já cadastado nessa empresa!' });
                 }
             }
             
             await PedidoModel.findByIdAndUpdate(id, req.body);
             
-            return res.status(200).json({message: 'Pedido atualizado'});
+            return res.status(200).json({message: 'Pedido atualizado!'});
         } catch (error) {
             return res.status(404).json({message: error});
         }
@@ -129,10 +129,10 @@ class PedidoController {
             const pedido = await PedidoModel.findByIdAndDelete(id);
 
             if(!pedido){
-                return res.status(404).json({message: "Pedido não encontrado"});
+                return res.status(404).json({message: "Pedido não encontrado!"});
             }
             
-            return res.status(200).json({message: 'Pedido deletado'});
+            return res.status(200).json({message: 'Pedido deletado!'});
         } catch (error) {
             return res.status(404).json({message: error});
         }

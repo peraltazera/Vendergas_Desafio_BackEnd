@@ -21,25 +21,25 @@ class EmpresaController {
             const usuario = await UsuarioModel.findById(req.body.usuario);
 
             if (!usuario) {
-                return res.status(404).json({ message: 'Usuario não encontrada' });
+                return res.status(404).json({ message: 'Usuario não encontrado!' });
             }
 
             const nomeFantasiaExistente = await EmpresaModel.findOne({ nomeFantasia: value.nomeFantasia });
 
             if (nomeFantasiaExistente) {
-                return res.status(400).json({ message: 'Nome Fantasia já existe' });
+                return res.status(400).json({ message: 'Nome Fantasia já cadastado em uma empresa!' });
             }
 
             const razaoSocialExistente = await EmpresaModel.findOne({ razaoSocial: value.razaoSocial });
 
             if (razaoSocialExistente) {
-                return res.status(400).json({ message: 'Razao Social já existe' });
+                return res.status(400).json({ message: 'Razao Social já cadastado em uma empresa!' });
             }
 
             const cnpjExistente = await EmpresaModel.findOne({ cnpj: value.cnpj });
 
             if (cnpjExistente) {
-                return res.status(400).json({ message: 'CNPJ já existe' });
+                return res.status(400).json({ message: 'CNPJ já cadastado em uma empresa!' });
             }
 
             const empresa = await EmpresaModel.create(req.body);
@@ -64,7 +64,7 @@ class EmpresaController {
             const empresa = await EmpresaModel.findById(id);
 
             if(!empresa){
-                return res.status(404).json({message: "Empresa não encontrada"});
+                return res.status(404).json({message: "Empresa não encontrada!"});
             }
             
             return res.status(200).json(empresa);
@@ -79,7 +79,7 @@ class EmpresaController {
             const empresas = await EmpresaModel.find({ usuario: id });
 
             if(!empresas){
-                return res.status(404).json({message: "Empresas não encontradas"});
+                return res.status(404).json({message: "Empresas não encontradas!"});
             }
             
             return res.status(200).json(empresas);
@@ -100,7 +100,7 @@ class EmpresaController {
                 const nomeFantasiaExistente = await EmpresaModel.findOne({ nomeFantasia: value.nomeFantasia });
 
                 if (nomeFantasiaExistente) {
-                    return res.status(400).json({ message: 'Nome Fantasia já existe' });
+                    return res.status(400).json({ message: 'Nome Fantasia já cadastado em uma empresa!' });
                 }
             }
 
@@ -108,7 +108,7 @@ class EmpresaController {
                 const razaoSocialExistente = await EmpresaModel.findOne({ razaoSocial: value.razaoSocial });
 
                 if (razaoSocialExistente) {
-                    return res.status(400).json({ message: 'Razao Social já existe' });
+                    return res.status(400).json({ message: 'Razao Social já cadastado em uma empresa!' });
                 }
             }
 
@@ -116,13 +116,13 @@ class EmpresaController {
                 const cnpjExistente = await EmpresaModel.findOne({ cnpj: value.cnpj });
 
                 if (cnpjExistente) {
-                    return res.status(400).json({ message: 'CNPJ já existe' });
+                    return res.status(400).json({ message: 'CNPJ já cadastado em uma empresa!' });
                 }
             }
 
             await EmpresaModel.findByIdAndUpdate(id, req.body);
             
-            return res.status(200).json({message: 'Empresa atualizada'});
+            return res.status(200).json({message: 'Empresa atualizada!'});
         } catch (error) {
             return res.status(404).json({message: error});
         }
@@ -134,10 +134,10 @@ class EmpresaController {
             const empresa = await EmpresaModel.findByIdAndDelete(id);
 
             if(!empresa){
-                return res.status(404).json({message: "Empresa não encontrada"});
+                return res.status(404).json({message: "Empresa não encontrada!"});
             }
             
-            return res.status(200).json({message: 'Empresa deletada'});
+            return res.status(200).json({message: 'Empresa deletada!'});
         } catch (error) {
             return res.status(404).json({message: error});
         }
