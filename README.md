@@ -4,8 +4,11 @@
 1. [Introdução](#introdução)
 2. [Pré-requisitos](#pré-requisitos)
 3. [Instalação](#instalação)
-4. [Rodando o Projeto](#rodando-o-projeto)
-5. [Estrutura do Projeto](#estrutura-do-projeto)
+4. [Clonar o Repositório](#ClonaroRepositório)
+5. [Instalar Dependências](#InstalarDependências)
+6. [Configuração](#Configuração)
+7. [Rodando o Projeto](#rodando-o-projeto)
+8. [Estrutura do Projeto](#estrutura-do-projeto)
 
 ## Introdução
 
@@ -64,7 +67,7 @@ npm start
 
 O servidor estará rodando no endereço http://localhost:NUMERO_DA_PORTA.
 
-### Estrutura do Projeto
+## Estrutura do Projeto
 
 Uma breve descrição da estrutura dos arquivos e diretórios principais do projeto:
 
