@@ -21,19 +21,19 @@ class ClienteController {
             const empresa = await EmpresaModel.findById(req.body.empresa);
 
             if (!empresa) {
-                return res.status(404).json({ message: 'Empresa não encontrada' });
+                return res.status(404).json({ message: 'Empresa não encontrada!' });
             }
 
             const emailExistente = await ClienteModel.findOne({ email: value.email, empresa: value.empresa });
     
             if (emailExistente) {
-                return res.status(400).json({ message: 'Email já existe' });
+                return res.status(400).json({ message: 'Email já cadastado nessa empresa!' });
             }
     
             const telefoneExistente = await ClienteModel.findOne({ telefone: value.telefone, empresa: value.empresa });
     
             if (telefoneExistente) {
-                return res.status(400).json({ message: 'Telefone já existe' });
+                return res.status(400).json({ message: 'Telefone já cadastado nessa empresa!' });
             }
 
             const cliente = await ClienteModel.create(req.body);
@@ -58,7 +58,7 @@ class ClienteController {
             const cliente = await ClienteModel.findById(id);
 
             if(!cliente){
-                return res.status(404).json({message: "Cliente não encontrado"});
+                return res.status(404).json({message: "Cliente não encontrado!"});
             }
             
             return res.status(200).json(cliente);
@@ -73,7 +73,7 @@ class ClienteController {
             const clientes = await ClienteModel.find({ empresa: id });
 
             if(!clientes){
-                return res.status(404).json({message: "Clientes não encontrados"});
+                return res.status(404).json({message: "Clientes não encontrados!"});
             }
             
             return res.status(200).json(clientes);
@@ -88,19 +88,13 @@ class ClienteController {
 
             const { error, value } = ClienteShema.validate(req.body);
 
-            const empresa = await EmpresaModel.findById(req.body.empresa);
-
-            if (!empresa) {
-                return res.status(404).json({ message: 'Empresa não encontrada' });
-            }
-
             const cliente = await ClienteModel.findById(id);
 
             if(value.email != cliente.email){
                 const emailExistente = await ClienteModel.findOne({ email: value.email, empresa: value.empresa });
 
                 if (emailExistente) {
-                    return res.status(400).json({ message: 'Email já existe' });
+                    return res.status(400).json({ message: 'Email já cadastado nessa empresa!' });
                 }
             }
 
@@ -108,13 +102,13 @@ class ClienteController {
                 const telefoneExistente = await ClienteModel.findOne({ telefone: value.telefone, empresa: value.empresa });
 
                 if (telefoneExistente) {
-                    return res.status(400).json({ message: 'Telefone já existe' });
+                    return res.status(400).json({ message: 'Telefone já cadastado nessa empresa!' });
                 }
             }
 
             await ClienteModel.findByIdAndUpdate(id, req.body);
             
-            return res.status(200).json({message: 'Cliente atualizado'});
+            return res.status(200).json({message: 'Cliente atualizado!'});
         } catch (error) {
             return res.status(404).json({message: error});
         }
@@ -126,10 +120,10 @@ class ClienteController {
             const cliente = await ClienteModel.findByIdAndDelete(id);
 
             if(!cliente){
-                return res.status(404).json({message: "Cliente não encontrado"});
+                return res.status(404).json({message: "Cliente não encontrado!"});
             }
             
-            return res.status(200).json({message: 'Cliente deletado'});
+            return res.status(200).json({message: 'Cliente deletado!'});
         } catch (error) {
             return res.status(404).json({message: error});
         }
